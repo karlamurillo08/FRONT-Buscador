@@ -78,6 +78,15 @@ const Buscador = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0); // Precio total que se actualiza dinámicamente
   
+  const handleAddToCart = () => {
+    if (selectedProduct) {
+      addToCart(selectedProduct, quantity); // Agrega el producto con la cantidad seleccionada
+      setModalVisible(false); // Cierra el modal después de agregar el producto
+    }
+  };
+  
+
+
 
   // Función para filtrar productos basados en la búsqueda
   const handleSearch = (text) => {
@@ -152,22 +161,22 @@ const Buscador = () => {
                       <Text style={styles.modalProductPrice}>{selectedProduct.price}</Text>
 
                       {/* Contador de cantidad */}
-                      <View style={styles.quantityContainer}>
-                        <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
-                          <Text style={styles.quantityButtonText}>-</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.quantityText}>{quantity}</Text>
-                        <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
-                          <Text style={styles.quantityButtonText}>+</Text>
-                        </TouchableOpacity>
-                      </View>
+                     <View style={styles.quantityContainer}>
+                       <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
+                         <Text style={styles.quantityButtonText}>-</Text>
+                       </TouchableOpacity>
+                       <Text style={styles.quantityText}>{quantity}</Text>
+                       <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
+                         <Text style={styles.quantityButtonText}>+</Text>
+                       </TouchableOpacity>
+                     </View>
 
                       {/* Mostrar total a pagar */}
                       <Text style={styles.totalText}>Total: ${totalPrice.toFixed(2)}</Text>
 
                       {/* Botón Agregar al carrito */}
-                      <Button style={styles.addButton} title="Agregar a carrito" onPress={() => addToCart(selectedProduct)}/>
-                      
+                      <Button style={styles.addButton} title="Agregar a carrito" onPress={handleAddToCart} />
+           
                        
 
                       <Button title="Cerrar" onPress={() => setModalVisible(false)} />

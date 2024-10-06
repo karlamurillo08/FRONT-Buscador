@@ -6,31 +6,32 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  // Función para agregar productos al carrito
-  const addToCart = (product) => {
-    setCart((prevCart) => {
-      // Buscar si el producto ya existe en el carrito
-      const existingProductIndex = prevCart.findIndex((item) => item.id === product.id);
+// Función para agregar productos al carrito
+const addToCart = (product, quantity = 1) => {
+  setCart((prevCart) => {
+    // Buscar si el producto ya existe en el carrito
+    const existingProductIndex = prevCart.findIndex((item) => item.id === product.id);
 
-      if (existingProductIndex !== -1) {
-        // Si el producto ya está en el carrito, actualizamos la cantidad y el precio total
-        const updatedCart = [...prevCart];
-        updatedCart[existingProductIndex].quantity += 1; // Sumar una unidad
-        updatedCart[existingProductIndex].totalPrice += parseFloat(product.price.replace('$', ''));
-        return updatedCart;
-      } else {
-        // Si el producto no está en el carrito, lo agregamos con cantidad 1 y el precio total inicial
-        return [
-          ...prevCart,
-          {
-            ...product,
-            quantity: 1, // Cantidad inicial
-            totalPrice: parseFloat(product.price.replace('$', '')), // Precio inicial
-          },
-        ];
-      }
-    });
-  };
+    if (existingProductIndex !== -1) {
+      // Si el producto ya está en el carrito, actualizamos la cantidad y el precio total
+      const updatedCart = [...prevCart];
+      updatedCart[existingProductIndex].quantity += quantity; // Sumar la cantidad seleccionada
+      updatedCart[existingProductIndex].totalPrice += parseFloat(product.price.replace('$', '')) * quantity;
+      return updatedCart;
+    } else {
+      // Si el producto no está en el carrito, lo agregamos con la cantidad y el precio total inicial
+      return [
+        ...prevCart,
+        {
+          ...product,
+          quantity: quantity, // Cantidad inicial seleccionada
+          totalPrice: parseFloat(product.price.replace('$', '')) * quantity, // Precio inicial calculado
+        },
+      ];
+    }
+  });
+};
+
 
   // Función para eliminar un producto del carrito
   const removeFromCart = (itemId) => {

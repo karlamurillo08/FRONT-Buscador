@@ -102,15 +102,11 @@ const Inicio = () => {
 
   const handleAddToCart = () => {
     if (selectedProduct) {
-      const item = {
-        ...selectedProduct,
-        quantity: quantity,
-      };
-      setCart([...cart, item]);
-      setModalVisible(false); // Cerrar el modal
+      addToCart(selectedProduct, quantity); // Agrega el producto con la cantidad seleccionada
+      setModalVisible(false); // Cierra el modal
     }
   };
-
+  
   const increaseQuantity = () => {
     setQuantity(prevQuantity => prevQuantity + 1);
     updateTotalPrice(quantity + 1); // Actualizar el precio total
@@ -195,7 +191,7 @@ const Inicio = () => {
                       <Text style={styles.totalText}>Total: ${totalPrice.toFixed(2)}</Text>
 
                       {/* Botón Agregar al carrito */}
-                      <Button style={styles.addButton} title="Agregar al carrito" onPress= {() => addToCart(selectedProduct)}/>
+                      <Button style={styles.addButton} title="Agregar al carrito" onPress={handleAddToCart} />
                         
                       
 
